@@ -1,0 +1,462 @@
+Test Driven Development (TDD) - kolejne kroki.
+==================================================
+Na podstawie: T.Kaczanowski. Practical Unit Testing
+Wydane przez kaczanowscy.pl - March 2012
+Rozdzia³ 5.
+-----------------------------------------------------
+CYKL TWORZENIA OPROGRAMOWANIA _ METODYKA TDD:
+0. Utworzenie szkieletu test i systemu testowanego (SUT)
+1. Utworzenie testu z nowymi cechami.
+2. Test zwraca b³¹d (b³êdy), bo SUT nie posida tej cechy.
+3. Poprawienie SUT.
+4. Test przechodzi poprawnie.
+5. Poprawienie struktur SUT/Testu, dodanie komentarzy (refactoring)
+6. Powrót do punktu 1.
+
+WYMAGANIA DLA SUT:
+
+=================== TEST 1 ================================
+// Co testujemy: Pojedynczy zarejestrowany klient powien otrzymac 
+//               wiadomosc.
+package rrs;
+
+import org.testng.annotations.*;
+import static org.mockito.Mockito.*;
+
+@Test
+public class RaceResultsServiceTest {
+    
+    public void subscribedClientShouldReceiveMessage() {
+        RaceResultsService raceResults = new RaceResultsService();
+        Client client = mock(Client.class);
+        Message message = mock(Message.class);
+        
+        raceResults.addSubscriber(client);
+        raceResults.send(message);
+        
+        verify(client).receive(message);
+    }
+}
+-------- SUT ver.0 - TEST ZWRACA BLAD --------------------
+package rrs;
+
+public class RaceResultsService {
+        
+    public void addSubscriber(Client client) {
+        
+    }
+    public void send(Message message) {
+        
+    }
+}
+-------------------------------------------------------
+package rrs;
+
+public interface Client {
+    public void receive(Message message);
+}
+-------------------------------------------------------
+package rrs;
+
+public interface Message {
+   
+}
+-----------POPRAWIONY SUT ver.1-- TEST 1 OK -----------
+package rrs;
+
+public class RaceResultsService {
+    private Client client; 
+    
+    public void addSubscriber(Client client) {
+        this.client = client;
+    }
+    public void send(Message message) {
+        client.receive(message);
+    }
+}
+=================== TEST 2 ============================
+// Co testujemy: Pojedynczy zarejestrowany klient powien otrzymac 
+//               wiadomosc.
+// Co testujemy: Ka¿dy zarejestrowany klient powinien otrzymac
+//               wiadomosc
+package rrs;
+
+import static org.testng.Assert.*;
+import org.testng.annotations.*;
+import static org.mockito.Mockito.*;
+
+@Test
+public class RaceResultsServiceTest {
+    
+    public void subscribedClientShouldReceiveMessage() {
+        RaceResultsService raceResults = new RaceResultsService();
+        Client client = mock(Client.class);
+        Message message = mock(Message.class);
+        
+        raceResults.addSubscriber(client);
+        raceResults.send(message);
+        
+        verify(client).receive(message);
+    }
+    
+    public void messageShouldBeSendToAllSubscribedClients() {
+        RaceResultsService raceResults = new RaceResultsService();
+        Client clientA = mock(Client.class);
+        Client clientB = mock(Client.class); // zwraca blad - nadpisanie użytkownika
+        Message message = mock(Message.class);
+        
+        raceResults.addSubscriber(clientA);
+        raceResults.addSubscriber(clientB);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+        verify(clientB).receive(message);
+    }
+}
+------------ TEST 2 dla SUT ver.1 ZWRACA BLAD -----------------
+
+-------------- SUT ver.2 TEST 2 OK ---------------------------
+package rrs;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class RaceResultsService {
+    private Collection<Client> clients = new ArrayList<Client>();
+    
+    public void addSubscriber(Client client) {
+        clients.add(client);
+    }
+    public void send(Message message) {
+        for( Client client:clients) {
+            client.receive(message);
+        }
+    }
+}
+-----------------------------------------------------------------
+---------------- REFACTORING - ZMIANA STRUKTURY TEST 2 ---------
+// Co testujemy: Pojedynczy zarejestrowany klient powien otrzymac 
+//               wiadomosc.
+// Co testujemy: Ka¿dy zarejestrowany klient powinien otrzymac
+//               wiadomosc
+package rrs;
+
+import org.testng.annotations.*;
+import static org.mockito.Mockito.*;
+
+@Test
+public class RaceResultsServiceTest {
+    private RaceResultsService raceResults;
+    private Message message;
+    private Client clientA;
+    private Client clientB;
+    
+    @BeforeMethod	// wykonywane przed kazdym testem!!!!!
+    public void setUp() {
+        raceResults = new RaceResultsService();
+        clientA = mock(Client.class);
+        clientB = mock(Client.class);
+        message = mock(Message.class);
+    }
+    public void subscribedClientShouldReceiveMessage() {
+        raceResults.addSubscriber(clientA);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+    }
+    
+    public void messageShouldBeSendToAllSubscribedClients() {
+        raceResults.addSubscriber(clientA);
+        raceResults.addSubscriber(clientB);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+        verify(clientB).receive(message);
+    }
+}
+-------------------SUT ver.2 TEST 2 OK ------------------------------
+
+======================== TEST 3 ====================================
+// Co testujemy: Pojedynczy zarejestrowany klient powien otrzymac 
+//               wiadomosc.
+// Co testujemy: Ka¿dy zarejestrowany klient powinien otrzymac
+//               wiadomosc
+// Co testujemy: ¯aden niezarejestrowany nie otrzymuje wiadomosci
+package rrs;
+
+import org.testng.annotations.*;
+import static org.mockito.Mockito.*;
+
+@Test
+public class RaceResultsServiceTest {
+    private RaceResultsService raceResults;
+    private Message message;
+    private Client clientA;
+    private Client clientB;
+    
+    @BeforeMethod
+    public void setUp() {
+        raceResults = new RaceResultsService();
+        clientA = mock(Client.class);
+        clientB = mock(Client.class);
+        message = mock(Message.class);
+    }
+    public void subscribedClientShouldReceiveMessage() {
+        raceResults.addSubscriber(clientA);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+    }
+    
+    public void messageShouldBeSendToAllSubscribedClients() {
+        raceResults.addSubscriber(clientA);
+        raceResults.addSubscriber(clientB);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+        verify(clientB).receive(message);
+    }
+    public void notSubscribedClientShouldNotReceiveMessage() {
+        raceResults.send(message);
+        
+        verify(clientA, never()).receive(message);
+        verify(clientB, never()).receive(message);
+    }
+}
+---------------- SUT ver.2 TEST 3 OK --- PROBLEM??!! -----------
+--------------- TEST 3 uporz¹dkowany (refactoring) -------------
+// Co testujemy: ¯aden niezarejestrowany nie otrzymuje wiadomosci
+// Co testujemy: Pojedynczy zarejestrowany klient powien otrzymac 
+//               wiadomosc.
+// Co testujemy: Ka¿dy zarejestrowany klient powinien otrzymac
+//               wiadomosc
+package rrs;
+
+import org.testng.annotations.*;
+import static org.mockito.Mockito.*;
+
+@Test
+public class RaceResultsServiceTest {
+    private RaceResultsService raceResults;
+    private Message message;
+    private Client clientA;
+    private Client clientB;
+    
+    @BeforeMethod
+    public void setUp() {
+        raceResults = new RaceResultsService();
+        clientA = mock(Client.class);
+        clientB = mock(Client.class);
+        message = mock(Message.class);
+    }
+    // zero subscribers
+    public void notSubscribedClientShouldNotReceiveMessage() {
+        raceResults.send(message);
+        
+        verify(clientA, never()).receive(message);
+        verify(clientB, never()).receive(message);
+    }
+    // one subscriber
+    public void subscribedClientShouldReceiveMessage() {
+        raceResults.addSubscriber(clientA);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+    }
+    // two subscribers
+    public void messageShouldBeSendToAllSubscribedClients() {
+        raceResults.addSubscriber(clientA);
+        raceResults.addSubscriber(clientB);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+        verify(clientB).receive(message);
+    }
+}
+----------------- SUT ver.2 TEST 3 OK --------------------------
+
+======================== TEST 4 =================================
+// Co testujemy: ¯aden niezarejestrowany nie otrzymuje wiadomosci
+// Co testujemy: Pojedynczy zarejestrowany klient powien otrzymac 
+//               wiadomosc.
+// Co testujemy: Ka¿dy zarejestrowany klient powinien otrzymac
+//               wiadomosc
+// Co testujemy: Czy wieloktnie rejestrowany klient dostaje tylko
+				 jedn¹ wiadomoœæ
+package rrs;
+
+import org.testng.annotations.*;
+import static org.mockito.Mockito.*;
+
+@Test
+public class RaceResultsServiceTest {
+    private RaceResultsService raceResults;
+    private Message message;
+    private Client clientA;
+    private Client clientB;
+    
+    @BeforeMethod
+    public void setUp() {
+        raceResults = new RaceResultsService();
+        clientA = mock(Client.class);
+        clientB = mock(Client.class);
+        message = mock(Message.class);
+    }
+    // zero subscribers
+    public void notSubscribedClientShouldNotReceiveMessage() {
+        raceResults.send(message);
+        
+        verify(clientA, never()).receive(message);
+        verify(clientB, never()).receive(message);
+    }
+    // one subscriber
+    public void subscribedClientShouldReceiveMessage() {
+        raceResults.addSubscriber(clientA);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+    }
+    // two subscribers
+    public void messageShouldBeSendToAllSubscribedClients() {
+        raceResults.addSubscriber(clientA);
+        raceResults.addSubscriber(clientB);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+        verify(clientB).receive(message);
+    }
+    // client subscribed more then once
+    public void shouldSendOnlyOneMessageToMultiSubscriber() {
+        raceResults.addSubscriber(clientA);
+        raceResults.addSubscriber(clientA);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+    }
+}
+-------------------- SUT ver.2 TEST 4 -- ZWRACA B£¥D ----------------
+-------------------- SUT ver 3 --------------------------------------
+package rrs;
+
+import java.util.Collection;
+import java.util.HashSet;
+
+public class RaceResultsService { // zmiana rodzaju kolekcji
+    private Collection<Client> clients = new HashSet<>();
+    
+    public void addSubscriber(Client client) {
+        clients.add(client);
+    }
+    public void send(Message message) {
+        for( Client client:clients) {
+            client.receive(message);
+        }
+    }
+}
+---------------------- SUT ver.3 TEST 4 -- OK --------------------------
+========================== TEST 5 =====================================
+package rrs;
+
+import org.testng.annotations.*;
+import static org.mockito.Mockito.*;
+
+@Test
+public class RaceResultsServiceTest {
+    private RaceResultsService raceResults;
+    private Message message;
+    private Client clientA;
+    private Client clientB;
+    
+    @BeforeMethod
+    public void setUp() {
+        raceResults = new RaceResultsService();
+        clientA = mock(Client.class);
+        clientB = mock(Client.class);
+        message = mock(Message.class);
+    }
+    // zero subscribers
+    public void notSubscribedClientShouldNotReceiveMessage() {
+        raceResults.send(message);
+        
+        verify(clientA, never()).receive(message);
+        verify(clientB, never()).receive(message);
+    }
+    // one subscriber
+    public void subscribedClientShouldReceiveMessage() {
+        raceResults.addSubscriber(clientA);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+    }
+    // two subscribers
+    public void messageShouldBeSendToAllSubscribedClients() {
+        raceResults.addSubscriber(clientA);
+        raceResults.addSubscriber(clientB);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+        verify(clientB).receive(message);
+    }
+    // client subscribed more then once
+    public void shouldSendOnlyOneMessageToMultiSubscriber() {
+        raceResults.addSubscriber(clientA);
+        raceResults.addSubscriber(clientA);
+        raceResults.send(message);
+        
+        verify(clientA).receive(message);
+    }
+    // removed subscriber should not received messages
+    public void unsubscribedClientShouldNotReceiveMessages() {
+        raceResults.addSubscriber(clientA);
+        raceResults.removeSubscriber(clientA); //fail
+        raceResults.send(message);
+        
+        verify(clientA, never()).receive(message);
+    }
+}
+--------------------- SUT ver 3.-------------------------------
+package rrs;
+
+import java.util.Collection;
+import java.util.HashSet;
+
+public class RaceResultsService {
+    private Collection<Client> clients = new HashSet<>();
+    
+    public void addSubscriber(Client client) {
+        clients.add(client);
+    }
+    public void removeSubscriber(Client client) {
+        
+    }
+    public void send(Message message) {
+        for( Client client:clients) {
+            client.receive(message);
+        }
+    }
+}
+----------------------- SUT ver.3 TEST 5 -- ZWRACA B£¥D ------
+--------------------- SUT ver.4 -----------------------------
+package rrs;
+
+import java.util.Collection;
+import java.util.HashSet;
+
+public class RaceResultsService {
+    private Collection<Client> clients = new HashSet<>();
+    
+    public void addSubscriber(Client client) {
+        clients.add(client);
+    }
+    public void removeSubscriber(Client client) {
+        clients.remove(client);
+    }
+    public void send(Message message) {
+        for( Client client:clients) {
+            client.receive(message);
+        }
+    }
+}
+------------------ SUT ver.4 TEST 5 -- OK -----------------
+NASTÊPNE TESTY DO SAMODZIELNEGO WYKONANIA
+--------------------- KONIEC ------------------------------
