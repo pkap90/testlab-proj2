@@ -13,6 +13,8 @@
 \tolerance=1000
 \setcounter{secnumdepth}{4}
 
+\lstset{language=Java, frame=single, breaklines=true, basicstyle=\footnotesize}
+
 \newcommand{\parsection}[1]{\paragraph{#1}\mbox{}\\\\}
 
 % wyroznienie slow kluczowych
@@ -26,19 +28,23 @@
 
 \author{Mateusz Supronowicz (kierownik) \\ Norbert Grzyb \\ Paweł Polański}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \maketitle
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wprowadzenie}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \subsection{Cel projektu}
 
 Celem projektu jest zapoznanie się z metodyką wytwarzania oprogramowania jaką jest Test-Driven Development.
 W poniższym dokumencie odnosząc się do niej będę posługiwał się skrótem TDD. Głownymi zadaniami do
-wykonania w terminie 03.12.2014r. było przeprowadzenie przykładów ze stron zamieszczonych w specyfikacji
+wykonania w terminie 10.12.2014r. było przeprowadzenie przykładów ze stron zamieszczonych w specyfikacji
 projektu otrzymanej na zajęciach, opis tych projektów, a także zaproponowanie własnego programu, który
-będzie w następnym etapie wytwarzany zgodnie z metodyką TDD. Program ten ma za zadanie realizować
+będzie następnie wytwarzany zgodnie z metodyką TDD. Program ten ma za zadanie realizować co najmniej
 7 funkcjonalności.
 
 \subsection{Środowisko, narzędzia}
@@ -47,8 +53,12 @@ System operacyjny: Windows 8.1\\
 IDE: Netbeans 8.0.1\\
 Biblioteki: JUnit 4.10, TestNG 6.8.1, Mockito 1.9.5
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Projekt 1a z ISOD}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \subsection{Test 1}
 
@@ -80,8 +90,12 @@ Po zmianie rodzaju kolekcji napisany test i poprzednie przechodzą.
 Do programu dopisujemy nową pustą metodę. Piszemy test który sprawdza czy usunięci klienci dostają wiadomości.
 Test nie przechodzi więc zabieramy się do implementacji. Po poprawnej implementacji testu, oraz wcześniejsze, powinny przechodzić.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wymagania na własne oprogramowanie z zastosowaniem metodyki TDD}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 Zespół decyduje się na zrealizowanie oprogramownia wykonującego proste operacje na macierzach.
 Główną i jedyną klasą będzie klasa Matrix zawierająca następujące funkcjonalności.
@@ -111,25 +125,18 @@ o wartości 0.
 \textbf{Dane wejściowe:} Dwie macierze.\\
 \textbf{Wynik:} Nowa macierz będąca rezultatem dodawania dwóch macierzy wejściowych.
 
+\subsection{Dodawanie dwóch macierzy - rozmiary macierzy muszą być identyczne.}
+
+\textbf{Opis:} Funkcja realizująca obsługę błędnych rozmiarów macierzy przy dodawaniu dwóch macierzy.\\
+\textbf{Dane wejściowe:} Dwie macierze o różnych rozmiarach.\\
+\textbf{Wynik:} Rzucenie wyjątku RuntimeException informującego o niepoprawnych rozmiarach macierzy.
+
 \subsection{Mnożenie macierzy przez skalar.}
 
 \textbf{Opis:} Funkcja realizująca mnożenie macierzy przez skalar, czyli mnożąca poszczególne
 elementy macierzy przez zadaną wartość.\\
 \textbf{Dane wejściowe:} Macierz wejściowa, skalar.\\
 \textbf{Wynik:} Nowa macierz będąca rezultatem pomnożenia macierzy wejściowej przez podany skalar.
-
-\subsection{Mnożenie dwóch macierzy.}
-
-\textbf{Opis:} Funkcja realizująca mnożenie dwóch macierzy przez siebie.\\
-\textbf{Dane wejściowe:} Dwie macierze wejściowe.\\
-\textbf{Wynik:} Nowa macierz będąca rezultatem pomnożenia dwóch macierzy przez siebie.
-
-\subsection{Mnożenie dwóch macierzy - obsługa niepoprawnego rozmiaru.}
-
-\textbf{Opis:} Obsługa błędu spowodowanego niepoprawnym rozmiarem macierzy. Liczba kolumn
-macierzy pierwszej nie jest równa liczbie wierszy macierzy drugiej.\\
-\textbf{Dane wejściowe:} Dwie macierze wejściowe o błędnych rozmiarach.\\
-\textbf{Wynik:} Rzucenie wyjątku RuntimeException z detaliczną informacją o błędzie.
 
 \subsection{Obliczanie wyznacznika zadanej macierzy kwadratowej.}
 
@@ -140,6 +147,539 @@ macierzy pierwszej nie jest równa liczbie wierszy macierzy drugiej.\\
 
 \textbf{Dane wejściowe:} Macierz niekwadratowa.\\
 \textbf{Wynik:} Rzucenie wyjątku RuntimeException mówiącego o niepoprawnym formacie macierzy.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Przebieg realizacji klasy Matrix zgodnie z metodyką TDD.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tworzenie macierzy o zadanych wartościach.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Pierwszym etapem naszego projektu jest stworzenie testu sprawdzającego czy klasa Matrix
+została utworzona poprawnie. Test wykazuje błąd, ponieważ kontruktor klasy nie został
+jeszcze zaimplementowany.\\\\
+
+\begin{lstlisting}
+  // Write tests for Matrix constructor -> FAIL (not implemented)
+  public class MatrixTest {
+
+    @Test
+    public void testConstructor() {
+      Matrix actual = new Matrix(new double[]{1, 2, 0.1, -2}, 2, 2);
+      double[][] expected = new double[][]{{1, 2}, {0.1, -2}};
+      Assert.assertArrayEquals(actual.Value, expected);
+    }
+  }
+\end{lstlisting}
+
+\begin{lstlisting}
+  // Empty implementation of constructor
+  public class Matrix {
+
+    public double[][] Value;
+    public int rows, columns;
+
+    public Matrix(double[] array, int rows, int columns) {
+
+    }
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{red} Negatywny}\\\\
+A więc zabieramy się za implementację konstruktora ustawiającego odpowiednie właściwości dla klas tj.
+liczbę wierszy, kolumn, oraz wartości będące elementami tablicy.\\
+
+\begin{lstlisting}
+  // Implementation of Matrix constructor
+  public Matrix(double[] array, int rows, int columns) {
+    this.rows = rows;
+    this.columns = columns;
+
+    Value = new double[rows][columns];
+    for (int i = 0; i < rows; i++) {
+      System.arraycopy(array, i * columns, Value[i], 0, columns);
+    }
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+Po ponownym uruchomieniu testu - przechodzi on w 100\%.\\\\
+\textbf{Wynik testu: }{\color{green} Pozytywny}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Obsługa niepoprawnej liczby elementów przy tworzeniu macierzy.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Warto zwrócić uwagę na przypadek, gdy liczba podanych elementów będzie za mała, by wypełnić macierz.
+Gdy tak się stanie, zostanie ona wypełniona podanymi wartościami, a pozostałe niewypełnione pola będą miały wartość 0.
+Ta funkcjonalność obsługuje także możliwość braku tablicy wejściowej. Cała macierz jest wtedy zainicjalizowana
+zerami.\\
+
+\noindent
+Tradycyjnie zatem piszemy test sprawdzający tą funckjonalność. Test kończy się niepowodzeniem.\\
+
+\begin{lstlisting}
+  // Test if the rest is filled with 0 -> FAIL (not implemented)
+  @Test
+  public void testTooShortArray() {
+    Matrix actual = new Matrix(new double[]{1, 2, 0.1, -2}, 3, 3);
+
+    double[][] expected = new double[][]{{1, 2, 0.1}, {-2, 0, 0}, {0, 0, 0}};
+    Assert.assertArrayEquals(actual.Value, expected);
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{red} Negatywny}\\\\
+Po zaimplementowaniu tej funkcjonalności (edycja konstruktora), program
+zachowuje się zgodnie z założonymi oczekiwaniami.\\
+
+\begin{lstlisting}
+  // Constructor with filling functionality
+  public Matrix(double[] array, int rows, int columns) {
+    this.rows = rows;
+    this.columns = columns;
+    double[] longerArray = new double[rows * columns];
+    System.arraycopy(array, 0, longerArray, 0, array.length);
+
+    Value = new double[rows][columns];
+    for (int i = 0; i < rows; i++) {
+      System.arraycopy(longerArray, i * columns, Value[i], 0, columns);
+    }
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{green} Pozytywny}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tworzenie macierzy jednostkowej.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Kolejny etap to stworzenie macierzy jednostkowej.\\
+
+\noindent
+Testy konstruktora i pusta implementacja:\\
+
+\begin{lstlisting}
+  @Test
+  public void testIdentity() {
+    Matrix actual = new Matrix(3);
+
+    double[][] expected = new double[][]{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+    Assert.assertArrayEquals(actual.Value, expected);
+  }
+\end{lstlisting}
+
+\begin{lstlisting}
+  // Empty implementation of Identity Matrix creation
+  public Matrix(int dimension) {
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{red} Negatywny}\\\\
+Po zaimplementowaniu tej funkcjonalności (edycja konstruktora), program
+zachowuje się zgodnie z założonymi oczekiwaniami.\\
+
+\begin{lstlisting}
+  // Implementation of Identity Matrix creation
+  public Matrix(int dimension) {
+    this.rows = this.columns = dimension;
+    Value = new double[dimension][dimension];
+
+    for (int i = 0; i < dimension; i++) {
+      Value[i][i] = 1;
+    }
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{green} Pozytywny}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Lekka refaktoryzacja.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Do programu zostały wprowadzone lekkie zmiany w strukturze, a mianowicie kreowanie macierzy
+jednostkowej jest od teraz dostępne tylko i wyłącznie ze statycznej metody \textbf{Identity}.
+Sam konstruktor został zmieniony na \textbf{private} by do niego miała dostęp jedynie
+powyższa metoda.\\
+
+\begin{lstlisting}
+  // Implementation as before
+  private Matrix(int dimension) {
+    this.rows = this.columns = dimension;
+    Value = new double[dimension][dimension];
+
+    for (int i = 0; i < dimension; i++) {
+      Value[i][i] = 1;
+    }
+  }
+
+  // Interface for the user
+  public static Matrix Identity(int dimension) {
+    return new Matrix(dimension);
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+Dodatkowo została zmieniona kolejność przyjmowanych elementów w konstruktorze przyjmującym
+wiele elementów (tablica jest podawana na końcu dla zwiększenia czytelności).
+
+\begin{lstlisting}
+ public Matrix(int rows, int columns, double[] array) {
+   // as before
+   ...
+ }
+\end{lstlisting}
+\medskip
+
+\noindent
+Jak widzimy, refaktoryzacja nie miała żadnego wpływu na wynik testów:\\
+
+\begin{lstlisting}
+  @Test
+  public void testIdentity() {
+    Matrix actual = Matrix.Identity(3);
+
+    double[][] expected = new double[][]{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+    Assert.assertArrayEquals(actual.Value, expected);
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{green} Pozytywny}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dodawanie dwóch macierzy.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Kolejną funkcjonalność stanowi dodawanie dwóch macierzy. Muszą one mieć te same
+rozmiary, jednak tą funkcjonalnością zajmiemy się później. Póki co, zbadamy poprawne
+dodawanie.\\
+
+\noindent
+Testy metody AddMatrices i pusta implementacja:\\
+
+\begin{lstlisting}
+  @Test
+  public void testAddMatrices() {
+    Matrix m1 = new Matrix(2, 2, new double[]{1, 2, 0.1, -2});
+    Matrix m2 = new Matrix(2, 2, new double[]{2, 3, 4, 0.1});
+
+    Matrix result = Matrix.AddMatrices(m1, m2);
+
+    double[][] expected = new double[][]{{3, 5}, {4.1, -1.9}};
+    Assert.assertArrayEquals(expected, result.Value);
+  }
+\end{lstlisting}
+
+\begin{lstlisting}
+  // Empty implementation
+  public static Matrix AddMatrices(Matrix m1, Matrix m2) {
+    throw new NotImplementedException();
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{red} Negatywny}\\\\
+Po zaimplementowaniu tej funkcjonalności, program
+zachowuje się zgodnie z oczekiwaniami.\\
+
+\begin{lstlisting}
+  // Implementation of adding 2 Matrices funcionality
+  public static Matrix AddMatrices(Matrix m1, Matrix m2) {
+    Matrix result = new Matrix(m1.rows, m1.columns, new double[]{});
+    for (int i = 0; i < m1.rows; i++) {
+      for (int j = 0; j < m1.columns; j++) {
+        result.Value[i][j] = m1.Value[i][j] + m2.Value[i][j];
+      }
+    }
+    return result;
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{green} Pozytywny}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dodawanie dwóch macierzy - rozmiary macierzy muszą być identyczne.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Zgodnie z obietnicą nadszedł czas na implementację obsługi błędnych rozmiarów macierzy.
+W sytuacji gdy rozmiary te nie są sobie równe, rzucany jest wyjątek \textbf{RuntimeException}.\\
+
+\noindent
+Zaczynamy od testów. Problem polega na tym, że wartości zostaną przekopiowane prawidłowo dla
+macierzy [2][2], a reszta wartości jest zwyczajnie pominięta:\\
+
+\begin{lstlisting}
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
+  @Test
+  public void testAddMatricesWhenWrongSizesThenRuntimeException() {
+    exception.expect(RuntimeException.class);
+
+    Matrix m1 = new Matrix(2, 2, new double[]{2, 3, 4, 0.1});
+    Matrix m2 = new Matrix(3, 2, new double[]{2, 2, 3, 2, 0.1, -2});
+
+    Matrix result = Matrix.AddMatrices(m1, m2);
+  }
+\end{lstlisting}
+\medskip
+\noindent
+\textbf{Wynik testu: }{\color{red} Negatywny - nie rzucono wyjątku RuntimeException.}\\\\
+Po zaimplementowaniu tej funkcjonalności, program
+zachowuje się zgodnie z oczekiwaniami.\\
+
+\begin{lstlisting}
+  // Complete implementation
+  public static Matrix AddMatrices(Matrix m1, Matrix m2) {
+    if (m1.rows != m2.rows || m1.columns != m2.columns) {
+      throw new RuntimeException("Sizes of given Matrices don't match.");
+    }
+
+    Matrix result = new Matrix(m1.rows, m1.columns, new double[]{});
+    for (int i = 0; i < m1.rows; i++) {
+      for (int j = 0; j < m1.columns; j++) {
+        result.Value[i][j] = m1.Value[i][j] + m2.Value[i][j];
+      }
+    }
+    return result;
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{green} Pozytywny}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Mnożenie macierzy przez skalar.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Kolejną funkcjonalność stanowi mnożenie macierzy przrz skalar. Nie ma tu żadnych
+ograniczeń ani specjalnych przypadków więc bezpośrednio zabieramy się do implementacji.\\
+
+\noindent
+Oczywiście najpierw piszemy testy i pustą implementację:
+
+\begin{lstlisting}
+  @Test
+  public void testMultiplyMatrixByScalar() {
+    Matrix matrix = new Matrix(2, 2, new double[]{5, 1, 0, 4});
+    double scalar = 2.1;
+
+    Matrix result = Matrix.MultiplyMatrixByScalar(matrix, scalar);
+
+    double[][] expected = new double[][]{{10.5, 2.1}, {0, 8.4}};
+    Assert.assertArrayEquals(expected, result.Value);
+  }
+\end{lstlisting}
+
+\begin{lstlisting}
+  // Empty implementation
+  public static Matrix MultiplyMatrixByScalar(Matrix matrix, double scalar) {
+    throw new NotImplementedException();
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{red} Negatywny}\\\\
+Po zaimplementowaniu tej funkcjonalności, program
+zachowuje się zgodnie z oczekiwaniami.\\
+
+\begin{lstlisting}
+  // Complete implementation
+  public static Matrix MultiplyMatrixByScalar(Matrix m, double scalar) {
+    double[] array = new double[m.rows * m.columns];
+
+    for (int i = 0; i < m.rows; i++) {
+      for (int j = 0; j < m.columns; j++) {
+        array[i * m.rows + j] = m.Value[i][j] * scalar;
+      }
+    }
+
+    return new Matrix(m.rows, m.columns, array);
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{green} Pozytywny}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Obliczanie wyznacznika zadanej macierzy kwadratowej.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Podstawową operacją wykonywaną na macierzach kwadratowych jest obliczenie
+wyznacznika macierzy. Zadanie to jest dość skomplikowane, warto więc starannie przygotować
+testy. Przypadkiem macierzy niekwadratowej zajmiemy się później.\\
+
+\begin{lstlisting}
+  @Test
+  public void testDeterminant() {
+    Matrix matrix = new Matrix(4, 4, new double[]{
+      1, 5, 6, 2.2,
+      3.3, 9, 10, 1,
+      7, 9, 3.2, 5.1,
+      5, 8, 6.3, 2
+    });
+
+    double determinant = Matrix.Determinant(matrix);
+    double expected = 60.729;
+    Assert.assertEquals(expected, determinant, 0.001);
+  }
+\end{lstlisting}
+
+\begin{lstlisting}
+  // Empty implementation
+  public static double Determinant(Matrix matrix) {
+    throw new NotImplementedException();
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{red} Negatywny}\\\\
+Do obliczeń posługujemy się klasą pomocniczą \textbf{DeterminantHelper}, która rekurencyjnie oblicza wyznacznik
+według rozwinięcia Laplace'a. Użytkownik jednak korzysta z metody \textbf{Determinant}. Ułatwi to w przyszłości
+obsługę błędów. Po zaimplementowaniu tej funkcjonalności, program zachowuje się zgodnie z oczekiwaniami.\\
+
+\begin{lstlisting}
+  // Method with recursive calculations
+  private static double DeterminantHelper(double[][] matrix) {
+    double sum = 0;
+    int sign;
+
+    // if a matrix is a number - return that number
+    if (matrix.length == 1) {
+      return matrix[0][0];
+    }
+
+    for (int i = 0; i < matrix.length; i++) {
+      //create smaller matrix - with values not in same row, column
+      double[][] smaller = new double[matrix.length - 1][matrix.length - 1];
+      for (int x = 1; x < matrix.length; ++x) {
+        for (int y = 0; y < matrix.length; ++y) {
+          if (y < i) {
+            smaller[x - 1][y] = matrix[x][y];
+          } else if (y > i) {
+            smaller[x - 1][y - 1] = matrix[x][y];
+          }
+        }
+      }
+      if (i % 2 == 0) {
+      sign = 1;
+    } else {
+      sign = -1;
+    }
+    sum += sign * matrix[0][i] * (DeterminantHelper(smaller)); // recursive
+  }
+  return sum;
+  }
+\end{lstlisting}
+
+\begin{lstlisting}
+  // Interface for the user
+  public static double Determinant(Matrix matrix) {
+    return DeterminantHelper(matrix.Value);
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{green} Pozytywny}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Błąd obliczania wyznacznika zadanej macierzy niekwadratowej.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Warto zwrócić uwagę, że obliczanie wyznacznika jest możliwe tylko dla macierzy kwadratowych.
+Chcemy zatem mieć obsługę błędów, gdy użytkownik poda na wejściu macierz, która nie
+jest macierzą kwadratową. W takim przypadku rzucany jest wyjątek \textbf{RuntimeException}
+ze stosowną informacją o błędzie.\\
+
+\begin{lstlisting}
+  // przypomnienie
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
+  @Test
+  public void testDeterminantWhenWrongMatrixSizeThrowRuntimeException() {
+    exception.expect(RuntimeException.class);
+
+    Matrix matrix = new Matrix(3, 4, new double[]{
+      1, 5, 6, 2.2,
+      3.3, 9, 10, 1,
+      7, 9, 3.2, 5.1,});
+
+    double determinant = Matrix.Determinant(matrix);
+  }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{red} Negatywny - nie rzucono błędu RuntimeException}\\\\
+Po zaimplementowaniu tej funkcjonalności, program
+zachowuje się zgodnie z oczekiwaniami.\\
+
+\begin{lstlisting}
+   // Error handling implementation
+   public static double Determinant(Matrix matrix) {
+        if (matrix.rows != matrix.columns) {
+            throw new RuntimeException("Row number must be equal to Column number");
+        }
+        return DeterminantHelper(matrix.Value);
+    }
+\end{lstlisting}
+\medskip
+
+\noindent
+\textbf{Wynik testu: }{\color{green} Pozytywny}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Podsumowanie.}
+\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}

@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9) (preloaded format=pdflatex 2014.6.22)  3 DEC 2014 12:46
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9) (preloaded format=pdflatex 2014.6.22)  8 DEC 2014 16:36
 entering extended mode
 **test_proj.tex
-(e:\Documents\test_proj.tex
+(c:\Users\Mateusz\Documents\NetBeansProjects\testlab-proj2\doc\test_proj.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -431,21 +431,25 @@ Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \TX@cols=\count100
 \TX@ftn=\toks24
 )
-No file test_proj.aux.
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OT4/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
+(C:\Users\Mateusz\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang1.sty
+File: lstlang1.sty 2014/09/06 1.5e listings language file
+)
+(c:\Users\Mateusz\Documents\NetBeansProjects\testlab-proj2\doc\test_proj.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT4/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -495,57 +499,244 @@ LaTeX Font Info:    ... okay on input line 30.
 \everyMPtoPDFconversion=\toks26
 )
 \c@lstlisting=\count107
-LaTeX Font Info:    Try loading font information for OML+plm on input line 31.
+LaTeX Font Info:    Try loading font information for OML+plm on input line 32.
  (C:\Users\Mateusz\AppData\Roaming\MiKTeX\2.9\tex\latex\polski\omlplm.fd
 File: omlplm.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
-LaTeX Font Info:    Try loading font information for OMS+plsy on input line 31.
+LaTeX Font Info:    Try loading font information for OMS+plsy on input line 32.
 
 
 (C:\Users\Mateusz\AppData\Roaming\MiKTeX\2.9\tex\latex\polski\omsplsy.fd
 File: omsplsy.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
-LaTeX Font Info:    Try loading font information for OMX+plex on input line 31.
+LaTeX Font Info:    Try loading font information for OMX+plex on input line 32.
 
 
 (C:\Users\Mateusz\AppData\Roaming\MiKTeX\2.9\tex\latex\polski\omxplex.fd
 File: omxplex.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <14.4> on input line 31.
+(Font)              <14.4> on input line 32.
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <10> on input line 31.
+(Font)              <10> on input line 32.
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <7> on input line 31.
-LaTeX Font Info:    Try loading font information for U+msa on input line 31.
+(Font)              <7> on input line 32.
+LaTeX Font Info:    Try loading font information for U+msa on input line 32.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 31.
+LaTeX Font Info:    Try loading font information for U+msb on input line 32.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ) [1
 
-{C:/Users/Mateusz/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3]
-(e:\Documents\test_proj.aux) ) 
+{C:/Users/Mateusz/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
+Underfull \hbox (badness 10000) in paragraph at lines 163--166
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 163--166
+
+ []
+
+LaTeX Font Info:    External font `plex10' loaded for size
+(Font)              <5> on input line 168.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 168.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omlcmr.fd"
+File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/it' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 168.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 169.
+
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 169.
+ [3]
+Underfull \hbox (badness 10000) in paragraph at lines 194--198
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 194--198
+
+ []
+
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 206.
+
+Underfull \hbox (badness 10000) in paragraph at lines 213--216
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--227
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 228--230
+
+ []
+
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 243--247
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--247
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--274
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 275--277
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 295--299
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 295--299
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 323--327
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 358--360
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 382--385
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 386--388
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 410--414
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 410--414
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 438--440
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 441--444
+
+ []
+
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 460--464
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 460--464
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 492--494
+
+ []
+
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 519--523
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 519--523
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 549--552
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 577--582
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 577--582
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 634--638
+
+ []
+
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 658--662
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 658--662
+
+ []
+
+[11]
+(c:\Users\Mateusz\Documents\NetBeansProjects\testlab-proj2\doc\test_proj.aux) )
+ 
 Here is how much of TeX's memory you used:
- 3893 strings out of 493921
- 54467 string characters out of 3144870
- 116591 words of memory out of 3000000
- 7138 multiletter control sequences out of 15000+200000
- 11869 words of font info for 37 fonts, out of 3000000 for 9000
+ 4357 strings out of 493921
+ 59707 string characters out of 3144870
+ 284351 words of memory out of 3000000
+ 7583 multiletter control sequences out of 15000+200000
+ 14461 words of font info for 44 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,6n,32p,240b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/Mateusz/AppData/Roaming/MiKTeX/2.9/font
-s/enc/dvips/pl/plrm.enc}<C:/Users/Mateusz/AppData/Roaming/MiKTeX/2.9/fonts/type
-1/public/pl/plbx12.pfb><C:/Users/Mateusz/AppData/Roaming/MiKTeX/2.9/fonts/type1
-/public/pl/plr12.pfb><C:/Users/Mateusz/AppData/Roaming/MiKTeX/2.9/fonts/type1/p
-ublic/pl/plr17.pfb>
-Output written on test_proj.pdf (3 pages, 43032 bytes).
+ 27i,6n,40p,240b,1683s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Users/Mateusz/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/pl/plrm.enc}{C:/Us
+ers/Mateusz/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/pl/plms.enc}{C:/Users/Ma
+teusz/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/pl/plit.enc}<C:/Program Files 
+(x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files (x
+86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Mateusz/AppD
+ata/Roaming/MiKTeX/2.9/fonts/type1/public/pl/plbx10.pfb><C:/Users/Mateusz/AppDa
+ta/Roaming/MiKTeX/2.9/fonts/type1/public/pl/plbx12.pfb><C:/Users/Mateusz/AppDat
+a/Roaming/MiKTeX/2.9/fonts/type1/public/pl/plr10.pfb><C:/Users/Mateusz/AppData/
+Roaming/MiKTeX/2.9/fonts/type1/public/pl/plr12.pfb><C:/Users/Mateusz/AppData/Ro
+aming/MiKTeX/2.9/fonts/type1/public/pl/plr17.pfb><C:/Users/Mateusz/AppData/Roam
+ing/MiKTeX/2.9/fonts/type1/public/pl/plsy10.pfb><C:/Users/Mateusz/AppData/Roami
+ng/MiKTeX/2.9/fonts/type1/public/pl/plti10.pfb>
+Output written on test_proj.pdf (11 pages, 127486 bytes).
 PDF statistics:
- 25 PDF objects out of 1000 (max. 8388607)
+ 77 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
