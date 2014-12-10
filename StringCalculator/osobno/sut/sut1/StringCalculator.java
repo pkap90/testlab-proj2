@@ -1,6 +1,8 @@
 package stringcalculator;
-
 public class StringCalculator {
+  public static void main (String[] args) {
+    System.out.println (add (""));
+  }
   // SUT 1
   public static int add (String numbers) {
     String [] numbersArray = numbers.split (",");

@@ -16,7 +16,12 @@ public class StringCalculatorTest {
   }
   
   @Test(expected = RuntimeException.class)
-  public void nonNumberShouldResultInException () {
+  public void NonNumberShouldResultInException () {
+    StringCalculator.add ("@");
+  }
+  
+  @Test(expected = RuntimeException.class)
+  public void NonNumberInListShouldResultInException () {
     StringCalculator.add ("1,$");
   }
   

@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class StringCalculatorTest {
-  // Test  set 1
+  // Test set 1
   @Test(expected = RuntimeException.class)
   public void moreThanTwoNumbersShouldResultInException () {
     StringCalculator.add ("1,2,3");
@@ -17,6 +17,11 @@ public class StringCalculatorTest {
   
   @Test(expected = RuntimeException.class)
   public void NonNumberShouldResultInException () {
+    StringCalculator.add ("@");
+  }
+  
+  @Test(expected = RuntimeException.class)
+  public void NonNumberInListShouldResultInException () {
     StringCalculator.add ("1,$");
   }
 }
